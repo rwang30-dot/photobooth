@@ -28,7 +28,7 @@ interface ResultsViewProps {
 export default function ResultsView({ photos, onRetake }: ResultsViewProps) {
   const [stripUrl, setStripUrl] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(true);
-  const [theme, setTheme] = useState<BorderTheme>("white");
+  const [theme, setTheme] = useState<BorderTheme>("film");
   const [filter, setFilter] = useState<FilterType>("normal");
   const [isSaving, setIsSaving] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -219,24 +219,28 @@ export default function ResultsView({ photos, onRetake }: ResultsViewProps) {
               <span>Border Style</span>
               <span className="text-zinc-500 text-[11px] capitalize">{THEME_CONFIGS[theme].name}</span>
             </div>
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-5 gap-1">
               {(Object.keys(THEME_CONFIGS) as BorderTheme[]).map((tKey) => {
                 const isSelected = theme === tKey;
                 return (
                   <button
                     key={tKey}
                     onClick={() => setTheme(tKey)}
-                    className={`py-2 px-1 rounded-xl text-xs font-semibold flex items-center justify-center gap-1 transition-all border ${
+                    className={`py-2 px-1 rounded-xl text-[11px] font-semibold flex flex-col items-center justify-center gap-1 transition-all border ${
                       isSelected
                         ? "bg-white text-black border-white shadow-sm scale-[1.02]"
                         : "bg-zinc-800/70 text-zinc-400 border-zinc-700/50 hover:text-zinc-200"
                     }`}
                   >
                     <span
-                      className="w-2.5 h-2.5 rounded-full border border-black/20"
+                      className="w-3 h-3 rounded-full border border-black/20 flex items-center justify-center"
                       style={{ backgroundColor: THEME_CONFIGS[tKey].bg }}
-                    />
-                    <span className="truncate">{THEME_CONFIGS[tKey].name.split(" ")[0]}</span>
+                    >
+                      {tKey === "film" && <span className="w-1 h-1 rounded-full bg-amber-400" />}
+                    </span>
+                    <span className="truncate max-w-full">
+                      {tKey === "film" ? "35mm" : THEME_CONFIGS[tKey].name.split(" ")[0]}
+                    </span>
                   </button>
                 );
               })}
